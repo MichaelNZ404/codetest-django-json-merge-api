@@ -1,0 +1,31 @@
+What would you do to improve your submission in general?
+
+Finish the recursive json tree structure building. Implement the tags etc
+
+How would your code perform with millions of toots?
+Assuming a flat structure, you're not going to do much better than writing the list to the view,
+however for filtering by authorID you could get much better performance out of a presorted list or
+using a database with an indexed field.
+
+What would you do to improve it?
+As above :)
+
+Assuming you’ve done that, how would your code perform with deeply nested toot threads?
+Terribly, This recursive json tree building has a terrible runtime.
+
+What would you do to improve it?
+I would preconstruct the tree such that at render the runtime is simply O(n)
+
+Assuming you’ve done the above, how would your code perform with thousands of requests per second?
+Assuming the data has been presorted and perhaps loaded into an indexed database, the retrieval of the data for the views should
+be sufficient, however at this scale we need to consider load balancing to not set fire to the database.
+
+What would you do to improve it?
+Distributed computing, caching common requests, request limits on IPs, depends on the source and type of the traffic mostly.
+
+How would you change your code to handle toots changing between requests?
+A Database would solve this due to read/write locks on tables.
+
+How would you implement an endpoint which filtered both by author and tag simultaneously? Assume that there are more authors than tags.
+Django can do this easily with a URL like 'toots/<int:author_id>/<int:tag_id>/, and its especially easy to filter like this with the ORM involved.
+personally I would do this kind of filtering via GET parameters but the url style was in the flask spec so I went with that.

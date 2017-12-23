@@ -1,0 +1,20 @@
+<li>
+  <span><a href="/author/{{ toot.author_id }}/">{{ toot.author }}</a></span>
+  <span>:</span>
+  <span>{{ toot.text }}</span>
+  {%if toot.tags %}
+    --
+  {% endif %}
+  {%for tag in toot.tags %}
+    <i><span><a href="/tag/{{ tag.0 }}/">"{{ tag.1 }}"</a></span></i>
+  {%endfor%}
+  {%if toot.children %}
+    <ul>
+      {%for ch in toot.children %}
+        {%with toot=ch template_name="toots/node_render.html" %}
+          {%include template_name%}
+        {%endwith%}
+      {%endfor%}
+     </ul>
+  {%endif%}
+</li>
